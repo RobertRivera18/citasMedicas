@@ -20,6 +20,8 @@
 
     <script src="https://kit.fontawesome.com/f2ff89425f.js" crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{--wireui---}}
     <wireui:scripts />
     <!-- Scripts -->
@@ -52,7 +54,13 @@
 
 
     @livewireScripts
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js">
-        </body>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    
+    @if (session('swal'))
+    <script>
+        Swal.fire(@json(session('swal')??[]));
+    </script>
+    @endif
+</body>
 
 </html>

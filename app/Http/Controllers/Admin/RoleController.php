@@ -29,7 +29,23 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request->validate([
+            'name' => 'required|unique:roles,name',
+        ]);
+
+        Role::create(['name' => $request->name]);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Rol creado correctamente',
+            'text' => 'El rol ha sido creado exitosamente.',
+            'position' => 'top-end',
+            'toast' => true,
+            'timer' => 3000,
+            'showConfirmButton' => false
+        ]);
+
+        return redirect()->route('admin.roles.index');
     }
 
     /**
@@ -45,7 +61,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('admin.roles.edit',compact('role'));
+        return view('admin.roles.edit', compact('role'));
     }
 
     /**
