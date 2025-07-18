@@ -29,7 +29,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
+        $request->validate([
             'name' => 'required|unique:roles,name',
         ]);
 
@@ -61,15 +61,36 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('admin.roles.edit', compact('role'));
+        if ($role->id <= 4) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => 'Error',
+                'text' => 'No puedes editar este rol.',
+            ]);
+            return redirect()->route('admin.roles.index');
+        }
+        return view('admin.roles.index', compact('role'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:roles,name,' . $role->id,
+        ]);
+        $role->update(['name' => $request->name]);
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Rol actualizado correctamente',
+            'text' => 'El rol ha sido actualizado exitosamente.',
+            'position' => 'top-end',
+            'toast' => true,
+            'timer' => 3000,
+            'showConfirmButton' => false
+        ]);
+        return redirect()->route('admin.roles.edit', $role);
     }
 
     /**
@@ -77,6 +98,25 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        if ($role->id <= 4) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => 'Error',
+                'text' => 'No puedes editar este rol.',
+            ]);
+            return redirect()->route('admin.roles.index');
+        }
+        $role->delete();
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Rol Eliminado correctamente',
+            'text' => 'El rol ha sido eliminado exitosamente.',
+            'position' => 'top-end',
+            'toast' => true,
+            'timer' => 3000,
+            'showConfirmButton' => false
+        ]);
+
+        return redirect()->route('admin.roles.index');
     }
 }

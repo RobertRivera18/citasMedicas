@@ -10,7 +10,7 @@
 ]">
 
     <x-slot name="action">
-        <x-wire-button blue href="{{route('admin.roles.create')}}" xs>
+        <x-wire-button blue href="{{route('admin.roles.create')}}">
             <i class="fas fa-plus"></i>
             Nuevo
         </x-wire-button>
