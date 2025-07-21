@@ -55,12 +55,46 @@
 
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    
+
     @if (session('swal'))
     <script>
         Swal.fire(@json(session('swal')??[]));
     </script>
     @endif
+
+    <script>
+        forms=document.querySelectorAll('.delete-form');
+            forms.forEach(form => {
+                form.addEventListener('submit',function(e){
+                e.preventDefault();
+              Swal.fire({
+                    title: '¿Eliminar Rol?',
+                    html: `<div style="font-size: 15px;">
+                    <strong>¡Esta acción no se puede deshacer!</strong><br>
+                  El rol será eliminada de forma permanente del.
+                </div>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e3342f',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="fas fa-trash-alt"></i> Sí, eliminar',
+                    cancelButtonText: '<i class="fas fa-times-circle"></i> Cancelar',
+                    customClass: {
+                        popup: 'rounded-xl px-6 pt-6 pb-4',
+                        confirmButton: 'px-4 py-2 text-sm',
+                        cancelButton: 'px-4 py-2 text-sm'
+                    },
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+  if (result.isConfirmed) {
+    form.submit()
+  }
+});
+
+                });
+            });
+    </script>
 </body>
 
 </html>
