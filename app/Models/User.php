@@ -20,7 +20,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-     use HasRoles;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +31,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cedula',
+        'phone',
+        'address',
+        
     ];
 
     /**
@@ -65,5 +69,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function patient(){
+      return $this->hasOne(Patient::class);    
     }
 }

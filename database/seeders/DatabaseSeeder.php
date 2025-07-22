@@ -16,10 +16,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call(RoleSeeder::class);
+        $this->call(BloodTypeSeeder::class);
         User::factory()->create([
             'name' => 'Robert Rivera',
             'email' => 'rxrc1819@gmail.com',
             'password' => bcrypt('1234567'),
-        ]);
+            'cedula' => '2400335119',
+            'phone' => '0997433070',
+            'address' => 'Guillermo Cubillo y Ordanete'
+        ])->assignRole('Doctor');
     }
 }
