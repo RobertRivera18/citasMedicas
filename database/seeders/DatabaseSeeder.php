@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoleSeeder::class);
         $this->call(BloodTypeSeeder::class);
+        $this->call(SpecialitySeeder::class);
         User::factory()->create([
             'name' => 'Robert Rivera',
             'email' => 'rxrc1819@gmail.com',
