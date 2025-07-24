@@ -49,7 +49,6 @@
         <x-wire-card>
             {{-- Tabs --}}
             <x-tabs active="datos-personales">
-
                 <x-slot name="header">
                     <x-tab-link tab="datos-personales">
                         <i class="fa-solid fa-user me-2"></i>

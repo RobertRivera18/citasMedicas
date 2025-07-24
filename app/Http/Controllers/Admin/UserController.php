@@ -39,10 +39,11 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
             'role_id' => 'required|exists:roles,id',
-
         ]);
+
         $user = User::create($data);
         $user->roles()->attach($data['role_id']);
+
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Usuario creado correctamente',
@@ -53,15 +54,19 @@ class UserController extends Controller
             'showConfirmButton' => false
         ]);
 
-        if ($user::role('Paciente')) {
-
+        if ($user->hasRole('Paciente')) {
             $patient = $user->patient()->create([]);
             return redirect()->route('admin.patients.edit', $patient);
         }
 
+        if ($user->hasRole('Doctor')) {
+            $doctor = $user->doctor()->create([]);
+            return redirect()->route('admin.doctors.edit', $doctor);
+        }
 
         return redirect()->route('admin.users.index');
     }
+
 
     /**
      * Display the specified resource.
