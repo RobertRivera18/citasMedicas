@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Speciality;
 use App\Models\Specility;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,7 +25,7 @@ class SpecialitySeeder extends Seeder
             'Infectología',
         ];
         foreach ($specialities as $speciality) {
-            Specility::create(['name' => $speciality]);
+            Speciality::create(['name' => $speciality]);
         }
     }
 }
