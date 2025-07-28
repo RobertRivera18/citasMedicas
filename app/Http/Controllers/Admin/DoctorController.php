@@ -55,7 +55,6 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-
         $data = $request->validate([
             'speciality_id' => 'nullable|exists:specialities,id',
             'medical_licence_number' => 'required|string|max:255|unique:doctors,medical_licence_number,' . $doctor->id,

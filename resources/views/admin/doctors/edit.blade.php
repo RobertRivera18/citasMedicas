@@ -48,7 +48,7 @@
 
         <x-wire-card>
             <div class="space-y-4">
-                   <x-wire-native-select
+                 <x-wire-native-select
                     label="Especialidad"
                     name="speciality_id"
                     >
