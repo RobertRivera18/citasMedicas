@@ -11,7 +11,7 @@ class DoctorTable extends DataTableComponent
 {
     public function builder(): Builder
     {
-        return Doctor::query()->with('user');
+        return Doctor::query()->with('user', 'speciality');
     }
 
     public function configure(): void
@@ -34,8 +34,8 @@ class DoctorTable extends DataTableComponent
                 ->sortable(),
             Column::make("Especialidad", "speciality.name")
                 ->format(function ($value) {
-                    return  $value?->name ?: 'N/A';
-                })->sortable(),
+                    return $value ?: 'N/A';
+                }),
             Column::make("Acciones")
                 ->label(function ($row) {
                     return view('admin.doctors.actions', [

@@ -17,33 +17,6 @@ class DoctorController extends Controller
         return view('admin.doctors.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Doctor $doctor)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Doctor $doctor)
     {
         $specialities = Speciality::all();
@@ -74,11 +47,5 @@ class DoctorController extends Controller
         return redirect()->route('admin.doctors.edit', $doctor);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Doctor $doctor)
-    {
-        //
-    }
+  
 }
