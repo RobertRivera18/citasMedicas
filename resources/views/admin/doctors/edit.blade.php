@@ -48,18 +48,16 @@
 
         <x-wire-card>
             <div class="space-y-4">
-                 <x-wire-native-select
-                    label="Especialidad"
-                    name="speciality_id"
-                    >
+                <x-wire-native-select label="Especialidad" name="speciality_id">
                     <option value="">
                         Selecciona una especialidad
                     </option>
 
                     @foreach ($specialities as $speciality)
-                        <option value="{{ $speciality->id }}" @selected($speciality->id == old('speciality_id', $doctor->speciality_id))>
-                            {{ $speciality->name }}
-                        </option>
+                    <option value="{{ $speciality->id }}" @selected($speciality->id == old('speciality_id',
+                        $doctor->speciality_id))>
+                        {{ $speciality->name }}
+                    </option>
                     @endforeach
                 </x-wire-native-select>
 
@@ -67,12 +65,20 @@
                     value="{{old('medical_licence_number',$doctor->medical_licence_number)}}"
                     placeholder="Numero de licencia medica" />
 
-                  <x-wire-textarea
-                    label="Biografía"
-                    name="biography"
+                <x-wire-textarea label="Biografía" name="biography"
                     placeholder="Escribe una breve biografía del doctor">
                     {{ old('biography', $doctor->biography) }}
                 </x-wire-textarea>
+
+                <x-wire-native-select label="Estado" name="active">
+                    <option value="1" @selected(old('active',$doctor->active==1))>
+                        Activo
+                    </option>
+
+                    <option value="0" @selected(old('active',$doctor->active==0))>
+                        Inactivo
+                    </option>
+                </x-wire-native-select>
             </div>
         </x-wire-card>
     </form>

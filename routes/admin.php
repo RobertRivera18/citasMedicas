@@ -14,4 +14,7 @@ Route::get('/', function () {
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::resource('patients', PatientController::class);
-Route::resource('doctors', DoctorController::class)->only(['index', 'edit', 'update']);
+Route::resource('doctors', DoctorController::class)
+     ->only(['index', 'edit', 'update']);
+Route::get('doctors/{doctor}/schedules',[DoctorController::class,'schedules'])
+     ->name('doctors.schedules');

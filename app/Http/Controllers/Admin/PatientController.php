@@ -25,25 +25,7 @@ class PatientController extends Controller
         return view('admin.patients.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Patient $patient)
-    {
-        return view('admin.patients.show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+ 
     public function edit(Patient $patient)
     {
         $bloodTypes = BloodType::all();
@@ -80,11 +62,5 @@ class PatientController extends Controller
         return redirect()->route('admin.patients.edit', $patient);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Patient $patient)
-    {
-        //
-    }
+   
 }

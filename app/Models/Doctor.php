@@ -12,6 +12,7 @@ class Doctor extends Model
         'speciality_id',
         'medical_licence_number',
         'biography',
+        'active'
     ];
 
 

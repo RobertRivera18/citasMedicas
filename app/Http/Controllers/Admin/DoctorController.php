@@ -31,9 +31,10 @@ class DoctorController extends Controller
         $data = $request->validate([
             'speciality_id' => 'nullable|exists:specialities,id',
             'medical_licence_number' => 'required|string|max:255|unique:doctors,medical_licence_number,' . $doctor->id,
-            'biography' => 'nullable|string'
+            'biography' => 'nullable|string',
+            'active' => 'boolean',
         ]);
-       
+
         $doctor->update($data);
         session()->flash('swal', [
             'icon' => 'success',
@@ -47,5 +48,8 @@ class DoctorController extends Controller
         return redirect()->route('admin.doctors.edit', $doctor);
     }
 
-  
+    public function schedules(Doctor $doctor)
+    {
+        return view('admin.doctors.schedules', compact('doctor'));
+    }
 }
