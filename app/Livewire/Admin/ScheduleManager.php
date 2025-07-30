@@ -3,6 +3,9 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Doctor;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ScheduleManager extends Component
@@ -12,14 +15,26 @@ class ScheduleManager extends Component
     public $schedule = [];
     public $days = [
 
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '0'
+        '1' => 'Lunes',
+        '2' => 'Martes',
+        '3' => 'Miercoles',
+        '4' => 'Jueves',
+        '5' => 'Viernes',
+        '6' => 'Sabado',
+        '0' => 'Domingo'
     ];
+
+    #[Computed()]
+    public function hourBlocks()
+    {
+        return CarbonPeriod::create(
+            Carbon::createFromTimeString('08:00:00'),
+            '1 hour',
+            Carbon::createFromTimeString('18:00:00')
+        );
+    }
+
+
     public function render()
     {
         return view('livewire.admin.schedule-manager');
