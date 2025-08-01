@@ -24,6 +24,15 @@ class ScheduleManager extends Component
         '0' => 'Domingo'
     ];
 
+    public $apointment_duration = 15;
+    public $intervals;
+
+
+    public function mount()
+    {
+
+        $this->intervals = 60 / $this->apointment_duration;
+    }
     #[Computed()]
     public function hourBlocks()
     {

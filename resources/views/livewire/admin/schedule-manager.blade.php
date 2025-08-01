@@ -24,6 +24,33 @@
                         <td class="px-6 y-4 whitespace-nowrap">
                             <span class="font-bold">{{$hour}}</span>
                         </td>
+
+                        @foreach ($days as $index=>$day)
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col space-y-2">
+                                <label>
+                                    <input type="checkbox" class="h-4 w-4 border-gray-300 rounded focus:ring-blue-500"
+                                        name="" />
+                                    <span class="ml-2">Todos</span>
+                                </label>
+
+                                @for ($i = 0; $i < $intervals; $i++) @php $startTime=$hourBlock->copy()->addMinutes($i *
+                                    $apointment_duration);
+                                    $endTime=$startTime->copy()->addMinutes($apointment_duration);;
+                                    @endphp
+                                    <label>
+                                        <input type="checkbox"
+                                            class="h-4 w-4 border-gray-300 rounded focus:ring-blue-500" name="" />
+                                        {{$startTime->format('H:i')}} -{{$endTime->format('H:i')}}
+                                    </label>
+                                    <label>
+
+                                    </label>
+
+                                    @endfor
+                            </div>
+                        </td>
+                        @endforeach
                     </tr>
 
                     @endforeach
