@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,3 +16,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('/prueba', function () {
+    $schedule = Schedule::find(1);
+    return $schedule->start_time->format('H:i:s');
+})->name('prueba');

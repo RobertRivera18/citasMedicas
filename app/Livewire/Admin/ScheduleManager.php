@@ -28,11 +28,7 @@ class ScheduleManager extends Component
     public $intervals;
 
 
-    public function mount()
-    {
 
-        $this->intervals = 60 / $this->apointment_duration;
-    }
     #[Computed()]
     public function hourBlocks()
     {
@@ -41,6 +37,33 @@ class ScheduleManager extends Component
             '1 hour',
             Carbon::createFromTimeString('18:00:00')
         );
+    }
+
+    public function mount()
+    {
+
+        $this->intervals = 60 / $this->apointment_duration;
+        $this->initializeSchedule();
+    }
+
+    public function initializeSchedule()
+    {
+        $schedules = $this->doctor->schedules();
+        foreach ($this->hourBlocks() as $hourBlock) {
+            $period = CarbonPeriod::Create(
+                $hourBlock->copy(),
+                $this->apointment_duration . 'minutes',
+                $hourBlock->copy()->addHour(),
+
+            );
+            foreach ($period as $time) {
+
+                foreach ($this->days as $index => $day) {
+                    $this->schedule[$index][$time->format('H:i:s')] = false;
+                }
+            }
+        }
+        dd($this->schedule);
     }
 
 

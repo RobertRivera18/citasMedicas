@@ -22,8 +22,16 @@
                     @endphp
                     <tr>
                         <td class="px-6 y-4 whitespace-nowrap">
-                            <span class="font-bold">{{$hour}}</span>
+
+                            <label>
+                                <input type="checkbox" class="h-4 w-4 border-gray-300 rounded focus:ring-blue-500"
+                                    name="" />
+                                <span class="font-bold ml-2">
+                                    {{$hour}}
+                                </span>
+                            </label>
                         </td>
+
 
                         @foreach ($days as $index=>$day)
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -41,12 +49,11 @@
                                     <label>
                                         <input type="checkbox"
                                             class="h-4 w-4 border-gray-300 rounded focus:ring-blue-500" name="" />
-                                        {{$startTime->format('H:i')}} -{{$endTime->format('H:i')}}
-                                    </label>
-                                    <label>
+                                        <span class="ml-2 text-sm text-medium text-gray-700">
+                                            {{$startTime->format('H:i')}} -{{$endTime->format('H:i')}}
+                                        </span>
 
                                     </label>
-
                                     @endfor
                             </div>
                         </td>
