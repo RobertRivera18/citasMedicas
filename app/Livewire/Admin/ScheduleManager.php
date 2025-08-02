@@ -41,30 +41,35 @@ class ScheduleManager extends Component
 
     public function mount()
     {
-
         $this->intervals = 60 / $this->apointment_duration;
         $this->initializeSchedule();
     }
 
     public function initializeSchedule()
     {
-        $schedules = $this->doctor->schedules();
-        foreach ($this->hourBlocks() as $hourBlock) {
-            $period = CarbonPeriod::Create(
-                $hourBlock->copy(),
-                $this->apointment_duration . 'minutes',
-                $hourBlock->copy()->addHour(),
+        $schedules = $this->doctor->schedules;
 
+        foreach ($this->hourBlocks as $hourBlock) {
+            $period = CarbonPeriod::create(
+                $hourBlock->copy(),
+                $this->apointment_duration . ' minutes',
+                $hourBlock->copy()->addHour()
             );
+
             foreach ($period as $time) {
 
                 foreach ($this->days as $index => $day) {
-                    $this->schedule[$index][$time->format('H:i:s')] = false;
+                    
+                    $this->schedule[$index][$time->format('H:i:s')] = $schedules->contains(function($schedule) use ($index, $time){
+                        return $schedule->day_of_week == $index && $schedule->start_time->format('H:i:s') == $time->format('H:i:s');
+                    });
+
                 }
+
             }
         }
-        dd($this->schedule);
     }
+
 
 
     public function render()
