@@ -20,66 +20,64 @@
                         </th>
 
                         @foreach ($days as $day)
-                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
-                                {{$day}}
-                            </th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                            {{$day}}
+                        </th>
                         @endforeach
 
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     @foreach ($this->hourBlocks as $hourBlock)
-                        
-                        @php
-                            $hour = $hourBlock->format('H:i:s');
-                        @endphp
 
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                    @php
+                    $hour = $hourBlock->format('H:i:s');
+                    @endphp
+
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <label>
+                                <input type="checkbox"
+                                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <span class="font-bold ml-2">
+                                    {{ $hour }}
+                                </span>
+                            </label>
+                        </td>
+
+                        @foreach ($days as $indexDay => $day)
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col space-y-2">
                                 <label>
-                                    <input 
-                                        type="checkbox" 
-                                        
+                                    <input type="checkbox"
+                                        x-on:click="toggleHourBlock('{{$indexDay}}','{{$hour}}',$el.chechked)"
                                         class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <span class="font-bold ml-2">
-                                        {{ $hour }}
+                                    <span class="ml-2 text-sm font-medium text-gray-700">
+                                        Todos
                                     </span>
                                 </label>
-                            </td>
 
-                            @foreach ($days as $indexDay => $day)
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex flex-col space-y-2">
-                                        <label>
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                            <span class="ml-2 text-sm font-medium text-gray-700">
-                                                Todos
-                                            </span>
-                                        </label>
+                                @for($i = 0; $i < $intervals; $i++) @php $startTime=$hourBlock->copy()->addMinutes($i *
+                                    $apointment_duration);
+                                    $endTime = $startTime->copy()->addMinutes($apointment_duration);
+                                    @endphp
 
-                                        @for($i = 0; $i < $intervals; $i++)
+                                    <label>
+                                        <input type="checkbox" {{--
+                                            x-model="schedule['{{ $indexDay }}'][{{ $startTime->format('H:i:s') }}]"
+                                            --}}
+                                            x-model="schedule['{{ $indexDay }}']['{{ $startTime->format('H:i:s') }}']"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                        <span class="ml-2 text-sm font-medium text-gray-700">
+                                            {{$startTime->format('H:i')}} - {{ $endTime->format('H:i') }}
+                                        </span>
+                                    </label>
+                                    @endfor
+                            </div>
+                        </td>
+                        @endforeach
 
-                                            @php
-                                                $startTime = $hourBlock->copy()->addMinutes($i * $apointment_duration);
-                                                $endTime = $startTime->copy()->addMinutes($apointment_duration);
-                                            @endphp
-
-                                            <label>
-                                                <input type="checkbox"
-                                                    {{-- x-model="schedule['{{ $indexDay }}'][{{ $startTime->format('H:i:s') }}]" --}}
-                                                    x-model="schedule['{{ $indexDay }}']['{{ $startTime->format('H:i:s') }}']"
-                                                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                                <span class="ml-2 text-sm font-medium text-gray-700">
-                                                    {{$startTime->format('H:i')}} - {{ $endTime->format('H:i') }}
-                                                </span>
-                                            </label>
-                                        @endfor
-                                    </div>
-                                </td>
-                            @endforeach
-
-                        </tr>
+                    </tr>
 
                     @endforeach
                 </tbody>
@@ -96,19 +94,22 @@
     </x-wire-card>
 
     @push('js')
-        
-        <script>
 
-            function data()
+    <script>
+        function data()
             {
                 return {
                     schedule: @entangle('schedule'),
+                    toggleHourBlock(indexDay,hour,checked){
+                    let hour =new Date()
+                    }
+
                     
                     
                 }
             }
 
-        </script>
+    </script>
 
     @endpush
 
