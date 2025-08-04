@@ -100,12 +100,17 @@
             {
                 return {
                     schedule: @entangle('schedule'),
-                    toggleHourBlock(indexDay,hour,checked){
-                    let hour =new Date()
-                    }
+                    apointment_duration: @entangle('apointment_duration'),
+                    intervals: @entangle('intervals'),
+                    toggleHourBlock(indexDay,hourBlock,checked){
+                        let hour =new Date(`1970-01-01T${hourBlock}`);
+                        for($i  =0 ; $i<this.intervals ; $i++){
+                            let startTime= new Date(hour.getTime()+ ($i * this.apointment_duration * 60000));
+                            let formattedStartTime=startTime.toTimeString().split('')[0];
+                             console.log(formattedStartTime);
 
-                    
-                    
+                        }
+                    }  
                 }
             }
 
