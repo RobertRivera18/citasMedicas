@@ -26,9 +26,9 @@ class ScheduleManager extends Component
     public function hourBlocks()
     {
         return CarbonPeriod::create(
-            Carbon::createFromTimeString('08:00:00'),
+            Carbon::createFromTimeString($this->start_time),
             '1 hour',
-            Carbon::createFromTimeString('18:00:00')
+            Carbon::createFromTimeString($this->end_time)
         )->excludeEndDate();
     }
 
