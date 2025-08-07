@@ -63,6 +63,12 @@
     @endif
 
     <script>
+        Livewire.on('swal',(data)=>{
+            Swal.fire(data[0])
+        });
+    </script>
+
+    <script>
         forms=document.querySelectorAll('.delete-form');
             forms.forEach(form => {
                 form.addEventListener('submit',function(e){

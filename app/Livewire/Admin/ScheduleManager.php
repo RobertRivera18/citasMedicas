@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Doctor;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Livewire\Attributes\Computed;
@@ -13,18 +14,10 @@ class ScheduleManager extends Component
 
     public Doctor $doctor;
     public $schedule = [];
-    public $days = [
-
-        '1' => 'Lunes',
-        '2' => 'Martes',
-        '3' => 'Miercoles',
-        '4' => 'Jueves',
-        '5' => 'Viernes',
-        '6' => 'Sabado',
-        '0' => 'Domingo'
-    ];
-
-    public $apointment_duration = 15;
+    public $days = [];
+    public $apointment_duration;
+    public $start_time;
+    public $end_time;
     public $intervals;
 
 
@@ -36,11 +29,15 @@ class ScheduleManager extends Component
             Carbon::createFromTimeString('08:00:00'),
             '1 hour',
             Carbon::createFromTimeString('18:00:00')
-        );
+        )->excludeEndDate();
     }
 
     public function mount()
     {
+        $this->days = config('schedule.days');
+        $this->apointment_duration = config('schedule.apointment_duration');
+        $this->start_time = config('schedule.start_time');
+        $this->end_time = config('schedule.end_time');
         $this->intervals = 60 / $this->apointment_duration;
         $this->initializeSchedule();
     }
@@ -59,15 +56,36 @@ class ScheduleManager extends Component
             foreach ($period as $time) {
 
                 foreach ($this->days as $index => $day) {
-                    
-                    $this->schedule[$index][$time->format('H:i:s')] = $schedules->contains(function($schedule) use ($index, $time){
+
+                    $this->schedule[$index][$time->format('H:i:s')] = $schedules->contains(function ($schedule) use ($index, $time) {
                         return $schedule->day_of_week == $index && $schedule->start_time->format('H:i:s') == $time->format('H:i:s');
                     });
-
                 }
-
             }
         }
+    }
+
+    public function save()
+    {
+        $this->doctor->schedules()->delete();
+        foreach ($this->schedule as $day_of_week => $intervals) {
+            foreach ($intervals as $start_time => $isChecked) {
+                if ($isChecked) {
+                    Schedule::create([
+                        'doctor_id' => $this->doctor->id,
+                        'day_of_week' => $day_of_week,
+                        'start_time' => $start_time,
+
+
+                    ]);
+                }
+            }
+        }
+        $this->dispatch('swal', [
+            'icon' => 'success',
+            'title' => 'Horario Actualizado',
+            'text' => 'El horario del doctor ha sido Actualizado',
+        ]);
     }
 
 
