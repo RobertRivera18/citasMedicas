@@ -1,4 +1,4 @@
-<x-admin-layout title="Pacientes" :breadcrumbs="[
+<x-admin-layout title="Crear Consultas Medicas" :breadcrumbs="[
 [
     'name'=>'Dashboard',
     'href'=>route('admin.dashboard')
