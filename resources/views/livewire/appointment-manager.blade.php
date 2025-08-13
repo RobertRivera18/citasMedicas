@@ -1,5 +1,5 @@
 <div>
-    <x-wire-card>
+    <x-wire-card class="mb-8">
         <p class="text-xl font-semibold mb-1 text-slate-700">Buscar Disponibilidad</p>
         <p>Encuentra el horario perfecto para tu cita</p>
 
@@ -30,5 +30,11 @@
             </div>
         </div>
     </x-wire-card>
+
+    @if ($appointment['date'])
+        @if (count($availability))
+            
+        @endif
+    @endif
 
 </div>

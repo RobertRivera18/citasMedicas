@@ -14,21 +14,33 @@ use Livewire\Component;
 class AppointmentManager extends Component
 {
 
-    public $search=[
-        'date'=>'',
-        'speciality_id'=>'',
-        'hour'=>''
+    public $search = [
+        'date' => '',
+        'speciality_id' => '',
+        'hour' => ''
     ];
 
-    public $specialities=[];
-  public function mount()
+    public $specialities = [];
+    public $availability= [];
+    public $appointment = [
+        'patient_id' => '',
+        'doctor_id' => '',
+        'date' => '',
+        'start_time' => '',
+        'end_time' => '',
+        'duration' => '',
+        'reason' => '',
+        'status' => '',
+
+
+
+    ];
+    public function mount()
     {
         $this->specialities = Speciality::all();
         $this->search['date'] = now()->hour >= 12
             ? now()->addDay()->format('Y-m-d')
             : now()->format('Y-m-d');
-
-        
     }
 
     #[Computed()]
@@ -41,22 +53,23 @@ class AppointmentManager extends Component
         )->excludeEndDate();
     }
 
-    public function searchAvailability(AppointmentService $service){
-      $this->validate([
-        'search.date'=>'required|date|after_or_equal:today',
-         'search.hour' => [
-    'required',
-    'date_format:H:i:s',
-    Rule::when(
-        $this->search['date'] === now()->format('Y-m-d'),
-        ['after_or_equal:' . now()->format('H:i:s')]
-    )
-],
+    public function searchAvailability(AppointmentService $service)
+    {
+        $this->validate([
+            'search.date' => 'required|date|after_or_equal:today',
+            'search.hour' => [
+                'required',
+                'date_format:H:i:s',
+                Rule::when(
+                    $this->search['date'] === now()->format('Y-m-d'),
+                    ['after_or_equal:' . now()->format('H:i:s')]
+                )
+            ],
 
 
-      ]);
-      $availability=$service->searchAvailability(...$this->search);
-
+        ]);
+        $this->availability = $service->searchAvailability(...$this->search);
+        $this->appointment['date'] = $this->search['date'];
     }
     public function render()
     {
