@@ -183,7 +183,7 @@
                             <x-wire-select
                                 label="Paciente"
                                 placeholder="Seleccione un paciente"
-                                {{-- :async-data="route('api.patients.index')" --}}
+                                :async-data="route('api.patients.index')"
                                 wire:model="appointment.patient_id"
                                 :disabled="isset($appointmentEdit)"
                                 option-label="name"
