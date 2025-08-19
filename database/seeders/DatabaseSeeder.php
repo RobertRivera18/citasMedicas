@@ -27,6 +27,16 @@ class DatabaseSeeder extends Seeder
             'address' => 'Guillermo Cubillo y Ordanete'
         ]);
         $user->assignRole('Doctor');
+        $user1 = User::factory()->create([
+            'name' => 'Cinthya Hermenejildo',
+            'email' => 'cmha02@gmail.com',
+            'password' => bcrypt('1234567'),
+            'cedula' => '0928411990',
+            'phone' => '0985286565',
+            'address' => 'Urdaneta y Udenor 2 -Calle 12 y Ave89'
+        ]);
+        $user1->assignRole('Paciente');
         $user->doctor()->create();
+        $user1->patient()->create();
     }
 }
