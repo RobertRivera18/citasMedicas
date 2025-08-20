@@ -21,7 +21,7 @@ class Appointment extends Model
         'date'=>'date',
         'start_time'=>'datetime',
         'end_time'=>'datetime',
-        'status'=>Appointment::class,
+        'status'=>AppointmentEnum::class,
     ];
 
     public function patient(){

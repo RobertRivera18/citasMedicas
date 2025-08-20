@@ -5,11 +5,17 @@ namespace App\Livewire\Admin\Datatables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Appointment;
+use Illuminate\Database\Eloquent\Builder;
 
 class AppointmentTable extends DataTableComponent
 {
     protected $model = Appointment::class;
 
+
+     public function builder(): Builder
+    {
+        return Appointment::query()->with('patient.user', 'doctor.user');
+    }
     public function configure(): void
     {
         $this->setPrimaryKey('id');
@@ -20,26 +26,32 @@ class AppointmentTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make("Patient id", "patient.user.name")
+            Column::make("Paciente", "patient.user.name")
                 ->sortable(),
-            Column::make("Doctor id", "doctor_id")
+            Column::make("Doctor", "doctor.user.name")
                 ->sortable(),
-            Column::make("Date", "date")
+            Column::make("Fecha", "date")
+                  ->format(function ($value) {
+                    return $value->format('d/m/Y');
+                       })
                 ->sortable(),
-            Column::make("Start time", "start_time")
+            Column::make("Hora", "start_time")
+                ->format(function ($value){
+                    return $value->format('H:i');
+                })
                 ->sortable(),
-            Column::make("End time", "end_time")
+            Column::make("Hora Fin", "end_time")
+                   ->format(function ($value){
+                    return $value->format('H:i');
+                })
                 ->sortable(),
-            Column::make("Duration", "duration")
-                ->sortable(),
-            Column::make("Reason", "reason")
-                ->sortable(),
-            Column::make("Status", "status")
-                ->sortable(),
-            Column::make("Created at", "created_at")
-                ->sortable(),
-            Column::make("Updated at", "updated_at")
-                ->sortable(),
+              Column::make("Acciones")
+                ->label(function ($row) {
+                    return view('admin.appointment.actions', [
+                        'appointment' => $row
+                    ]);
+                })
+           
         ];
     }
 }
