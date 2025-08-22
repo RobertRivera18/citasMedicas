@@ -24,6 +24,13 @@ class Appointment extends Model
         'status'=>AppointmentEnum::class,
     ];
 
+
+    //Relacion de uno a uno
+       public function consultation(){
+return $this->hasOne(Consultation::class);
+    }
+
+    //Relaciones Inversas
     public function patient(){
     return $this->belongsTo(Patient::class);
     }
@@ -31,5 +38,7 @@ class Appointment extends Model
     public function doctor(){
   return $this->belongsTo(Doctor::class);
     }
+
+ 
 
 }
