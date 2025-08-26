@@ -17,7 +17,7 @@
             </div>
 
             <div class="flex space-x-3 mt-6 lg:mt-0">
-                <x-wire-button outline gray>
+                <x-wire-button outline gray x-on:click="$openModal('historyModal')">
                     <i class="fa-solid fa-notes-medical"></i>
                     Ver Historial
                 </x-wire-button>
@@ -72,27 +72,49 @@
                         </div>
 
                         <div class="flex shrink-0 pt-6.5">
-                            <x-wire-mini-button sm red
-                            icon="trash">
-                                
+                            <x-wire-mini-button sm red icon="trash"
+                                wire:click="removePrescriptions({{ $index }})"
+                                spinner="removePrescriptions({{ $index }})">
+
                             </x-wire-mini-button>
                         </div>
                     </div>
                 @empty
-                @endforelse
 
+                    <div class="text-center text-gray-500">
+                        No hay medicamentos agregagos en la receta.
+                    </div>
+                @endforelse
             </div>
 
             <div class="mt-4">
-                <x-wire-button outline secondary
-                    wire:click="addPrescription">
+                <x-wire-button outline secondary wire:click="addPrescription" spinner="addPrescription">
                     <i class="fa-solid fa-plus mr-2"></i>
-                    Añador Medicamento
+                    Añadir Medicamento
                 </x-wire-button>
             </div>
         </x-tab-content>
     </x-tabs>
-    <x-wire-card>
 
-    </x-wire-card>
+    <div class="flex justify-end mt-6">
+        <x-wire-button wire:click="save" spinner="save">
+            <i class="fa-solid fa-save mr-2"></i>
+            Guardar Consulta
+        </x-wire-button>
+    </div>
+
+
+
+
+
+    <x-wire-modal-card title="Historial Medico" name="historyModal" width="5xl">
+
+        <div class="grid grid-cols-4 g-6">
+            <div>
+                <p class="font-medium text-gray-500 mb-1">Tipo de Sangre</p>
+                <p class="font-semibold text-gray-800 mb-1">{{$patient->blood_type ?? 'No registrado'}}</p>
+            </div>
+        </div>
+
+    </x-wire-modal-card>
 </div>
