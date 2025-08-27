@@ -13,9 +13,7 @@ class ConsultationManager extends Component
    
     public Appointment $appointment;
     public Consultation $consultation;
-    public Patient $patient;
-    
-    
+    public Patient $patient;    
     public $previousConsultations;
 
     public $form = [
@@ -29,6 +27,13 @@ class ConsultationManager extends Component
     {
         $this->consultation = $appointment->consultation;
         $this->patient=$appointment->patient;
+        $this->previousConsultations=Consultation::whereHas('appointment',function($query){
+         $query->where('patient_id',$this->patient->id);
+        })->where('id','!=',$this->consultation->id)
+          ->where('created_at','<',$this->consultation->created_at)
+           ->latest()
+           ->take(5)
+           ->get();
         
 
         $this->form = [

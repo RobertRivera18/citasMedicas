@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,3 +32,15 @@ Route::get('/patients', function (Request $request) {
             ];
         });
 })->name('api.patients.index');
+Route::get('/appointments',function(Request $request){
+$appoitments=Appointment::with(['patient.user','doctor.user'])
+->whereBetween('date',$request->start,$request->end)
+->get();
+return $appoitments->map(function(Appointment $appointment){
+return [ 
+    'id'=>$appointment->id,
+    'title'=>$appointment->patient->user->name,
+
+];
+});
+})->name('api.appointments.index');

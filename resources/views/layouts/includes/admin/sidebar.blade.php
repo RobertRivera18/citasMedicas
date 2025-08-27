@@ -40,6 +40,12 @@ $links = [
 'href' => route('admin.appointments.index'),
 'active' => request()->routeIs('admin.appointments.*'),
 ],
+[
+'name' => 'Calendario de Citas',
+'icon' => 'fa-solid fa-calendar-days',
+'href' => route('admin.calendar.index'),
+'active' => request()->routeIs('admin.calendar.*'),
+],
 ];
 @endphp
 
