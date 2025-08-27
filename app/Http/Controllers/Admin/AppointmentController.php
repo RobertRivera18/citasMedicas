@@ -37,7 +37,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-         return view('admin.appointment.show',compact('appointment'));
+        return view('admin.appointment.show', compact('appointment'));
     }
 
     /**
@@ -45,7 +45,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-      return view('admin.appointment.edit',compact('appointment'));
+        return view('admin.appointment.edit', compact('appointment'));
     }
 
     /**
@@ -62,5 +62,9 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         //
+    }
+    public function consultation(Appointment $appointment)
+    {
+        return view('admin.appointment.consultation', compact('appointment'));
     }
 }

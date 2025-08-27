@@ -21,9 +21,9 @@ class Patient extends Model
         'emergency_contact_relationship',
 
     ];
+    
     public function user()
     {
-
         return $this->belongsTo(User::class);
     }
 

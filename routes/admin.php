@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('admin.dashboard');
+     return view('admin.dashboard');
 })->name('dashboard');
 
 //Gestión
@@ -17,6 +17,9 @@ Route::resource('users', UserController::class);
 Route::resource('patients', PatientController::class);
 Route::resource('doctors', DoctorController::class)
      ->only(['index', 'edit', 'update']);
-Route::get('doctors/{doctor}/schedules',[DoctorController::class,'schedules'])
+Route::get('doctors/{doctor}/schedules', [DoctorController::class, 'schedules'])
      ->name('doctors.schedules');
-Route::resource('appointments',AppointmentController::class);
+
+Route::get('appointments/{appointment}/consultation', [AppointmentController::class, 'consultation'])
+       ->name('appointments.consultation');;
+Route::resource('appointments', AppointmentController::class);
