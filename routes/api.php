@@ -34,13 +34,22 @@ Route::get('/patients', function (Request $request) {
 })->name('api.patients.index');
 Route::get('/appointments',function(Request $request){
 $appoitments=Appointment::with(['patient.user','doctor.user'])
-->whereBetween('date',$request->start,$request->end)
+->whereBetween('date',[$request->start,$request->end])
 ->get();
-return $appoitments->map(function(Appointment $appointment){
+return $appoitments->map(function($appointment){
 return [ 
     'id'=>$appointment->id,
     'title'=>$appointment->patient->user->name,
-
+    'start'=>$appointment->start,
+    'end'=>$appointment->end,
+    'color'=>$appointment->status->colorHex(),
+    'extendedProps'=>[
+             'dateTime'=>$appointment->start,
+             'patient'=>$appointment->patient->user->name,
+             'doctor'=>$appointment->doctor->user->name,         
+             'status'=>$appointment->status->label(),
+             'color'=>$appointment->status->color(),
+    ]
 ];
-});
+})->values();
 })->name('api.appointments.index');

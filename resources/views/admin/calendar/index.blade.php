@@ -8,11 +8,18 @@
     ],
 ]">
 
+    @push('css')
+        <style>
+            .fc-event {
+                cursor: pointer;
+            }
+        </style>
+    @endpush
+
+
     <div x-data="data()">
         <div x-ref="calendar">
-
         </div>
-
     </div>
 
     @push('js')
@@ -45,7 +52,7 @@
                             slotDuration: '00:15:00',
                             slotMinTime: "{{ config('schedule.start_time') }}",
                             slotMaxTime: "{{ config('schedule.end_time') }}",
-                              events: {
+                            events: {
                                 url: "{{ route('api.appointments.index') }}",
                                 failure: function() {
                                     alert('Hubo un error al cargar los eventos.');
