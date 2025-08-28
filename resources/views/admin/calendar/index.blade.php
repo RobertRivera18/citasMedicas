@@ -18,6 +18,8 @@
 
 
     <div x-data="data()">
+        <x-wire-modal-card title="Cita Medica" name="appointmentModal">
+        </x-wire-modal-card>
         <div x-ref="calendar">
         </div>
     </div>
@@ -57,6 +59,9 @@
                                 failure: function() {
                                     alert('Hubo un error al cargar los eventos.');
                                 }
+                            },
+                            eventClick: function(info) {
+                                $openModal('appointmentModal')
                             },
                             scrollTime: "{{ date('H:i:s') }}"
 
