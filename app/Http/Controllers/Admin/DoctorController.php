@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Speciality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DoctorController extends Controller
 {
@@ -14,6 +15,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read_doctor');
         return view('admin.doctors.index');
     }
 

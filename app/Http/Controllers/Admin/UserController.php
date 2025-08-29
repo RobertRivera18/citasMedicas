@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -14,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read_user');
         return view('admin.users.index');
     }
 
@@ -22,6 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create_user');
         $roles = Role::all();
         return view('admin.users.create', compact('roles'));
     }
@@ -31,6 +34,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+         Gate::authorize('create_user');
         $data = $request->validate([
             'name' => 'required|string|max:256',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -73,6 +77,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        Gate::authorize('read_user');
         return view('admin.users.show', compact('user'));
     }
 
@@ -81,6 +86,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        Gate::authorize('update_user');
         $roles = Role::all();
         return view('admin.users.edit', compact('user', 'roles'));
     }
@@ -90,6 +96,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        Gate::authorize('update_user');
         $data = $request->validate([
             'name' => 'required|string|max:256',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -123,6 +130,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        Gate::authorize('delete_user');
         $user->roles()->detach();
         $user->delete();
         session()->flash('swal', [

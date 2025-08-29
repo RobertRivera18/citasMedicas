@@ -12,7 +12,4 @@
 ]">
 
 
-
-
-
 </x-admin-layout>
