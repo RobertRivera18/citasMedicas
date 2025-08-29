@@ -15,28 +15,34 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(RoleSeeder::class);
-        $this->call(BloodTypeSeeder::class);
-        $this->call(SpecialitySeeder::class);
-        $user = User::factory()->create([
-            'name' => 'Robert Rivera',
-            'email' => 'rxrc1819@gmail.com',
-            'password' => bcrypt('1234567'),
-            'cedula' => '2400335119',
-            'phone' => '0997433070',
-            'address' => 'Guillermo Cubillo y Ordanete'
+         $this->call([
+            BloodTypeSeeder::class,
+
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+
+            SpecialitySeeder::class,
         ]);
-        $user->assignRole('Doctor');
-        $user1 = User::factory()->create([
-            'name' => 'Cinthya Hermenejildo',
-            'email' => 'cmha02@gmail.com',
-            'password' => bcrypt('1234567'),
-            'cedula' => '0928411990',
-            'phone' => '0985286565',
-            'address' => 'Urdaneta y Udenor 2 -Calle 12 y Ave89'
-        ]);
-        $user1->assignRole('Paciente');
-        $user->doctor()->create();
-        $user1->patient()->create();
+        // $user = User::factory()->create([
+        //     'name' => 'Robert Rivera',
+        //     'email' => 'rxrc1819@gmail.com',
+        //     'password' => bcrypt('1234567'),
+        //     'cedula' => '2400335119',
+        //     'phone' => '0997433070',
+        //     'address' => 'Guillermo Cubillo y Ordanete'
+        // ]);
+        // $user->assignRole('Admin');
+        // $user1 = User::factory()->create([
+        //     'name' => 'Cinthya Hermenejildo',
+        //     'email' => 'cmha02@gmail.com',
+        //     'password' => bcrypt('1234567'),
+        //     'cedula' => '0928411990',
+        //     'phone' => '0985286565',
+        //     'address' => 'Urdaneta y Udenor 2 -Calle 12 y Ave89'
+        // ]);
+        // $user1->assignRole('Paciente');
+        // $user->doctor()->create();
+        // $user1->patient()->create();
     }
 }

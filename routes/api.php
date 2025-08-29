@@ -44,11 +44,12 @@ return [
     'end'=>$appointment->end,
     'color'=>$appointment->status->colorHex(),
     'extendedProps'=>[
-             'dateTime'=>$appointment->start,
+             'dateTime'=>$appointment->start->format('d/m/Y H:i:s'),
              'patient'=>$appointment->patient->user->name,
              'doctor'=>$appointment->doctor->user->name,         
              'status'=>$appointment->status->label(),
              'color'=>$appointment->status->color(),
+             'url'=> route('admin.appointments.consultation', $appointment),
     ]
 ];
 })->values();

@@ -26,16 +26,14 @@ class Appointment extends Model
         'status'=>AppointmentEnum::class,
     ];
 
-
     //Accesores
-
     public function start():Attribute
     {
     return Attribute::make(
         get:function(){
             $date=$this->date->format('Y-m-d');
             $time=$this->start_time->format('H:i:s');
-            return Carbon::parse("{$date}{$time}")->toIso8601String();
+            return Carbon::parse("{$date}{$time}");
         },
     );
     }
