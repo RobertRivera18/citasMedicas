@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AppointmentController extends Controller
 {
@@ -13,6 +14,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read_appointment');
         return view('admin.appointment.index');
     }
 
@@ -21,6 +23,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
+         Gate::authorize('create_appointment');
         return view('admin.appointment.create');
     }
 
@@ -37,6 +40,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        Gate::authorize('read_appointment');
         return view('admin.appointment.show', compact('appointment'));
     }
 
@@ -45,6 +49,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
+           Gate::authorize('update_appointment');
         return view('admin.appointment.edit', compact('appointment'));
     }
 
@@ -61,9 +66,10 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        Gate::authorize( 'delete_appointment');
     }
     public function consultation(Appointment $appointment){
+           Gate::authorize('update_appointment');
              return view('admin.appointment.consultation',compact('appointment'));
     }
 }

@@ -1,12 +1,12 @@
 <x-admin-layout title="Dashboard" :breadcrumbs="[
 [
 'name'=>'Dashboard',
-'href'=>route('dashboard')
+'href'=>route('admin.dashboard')
 
 ],
 [
 'name'=>'Prueba',
-'href'=>route('dashboard')
+'href'=>route('admin.dashboard')
 
 ],
 ]">
