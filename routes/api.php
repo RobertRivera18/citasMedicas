@@ -49,7 +49,7 @@ return [
              'doctor'=>$appointment->doctor->user->name,         
              'status'=>$appointment->status->label(),
              'color'=>$appointment->status->color(),
-             'url'=> route('admin.appointments.consultation', $appointment),
+             'url'=> route('admin.appointments.show', $appointment),
     ]
 ];
 })->values();
