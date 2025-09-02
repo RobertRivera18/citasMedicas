@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 class ItemHeader implements ItemSidebar
 {
     private string $title;
-    private array $can = [];
+    private array $can;
 
     public function __construct(string $title, array $can)
     {

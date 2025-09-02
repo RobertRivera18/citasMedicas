@@ -23,7 +23,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-         Gate::authorize('create_appointment');
+        Gate::authorize('create_appointment');
         return view('admin.appointment.create');
     }
 
@@ -49,7 +49,8 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-           Gate::authorize('update_appointment');
+        $appointment = Appointment::findOrFail($appointment);
+        Gate::authorize('update_appointment');
         return view('admin.appointment.edit', compact('appointment'));
     }
 
@@ -66,10 +67,11 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        Gate::authorize( 'delete_appointment');
+        Gate::authorize('delete_appointment');
     }
-    public function consultation(Appointment $appointment){
-           Gate::authorize('update_appointment');
-             return view('admin.appointment.consultation',compact('appointment'));
+    public function consultation(Appointment $appointment)
+    {
+        Gate::authorize('update_appointment');
+        return view('admin.appointment.consultation', compact('appointment'));
     }
 }

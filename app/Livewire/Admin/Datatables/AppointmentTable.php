@@ -12,9 +12,11 @@ class AppointmentTable extends DataTableComponent
     protected $model = Appointment::class;
 
 
-     public function builder(): Builder
+    public function builder(): Builder
     {
         return Appointment::query()->with('patient.user', 'doctor.user');
+        
+        
     }
     public function configure(): void
     {
@@ -31,31 +33,31 @@ class AppointmentTable extends DataTableComponent
             Column::make("Doctor", "doctor.user.name")
                 ->sortable(),
             Column::make("Fecha", "date")
-                  ->format(function ($value) {
+                ->format(function ($value) {
                     return $value->format('d/m/Y');
-                       })
+                })
                 ->sortable(),
             Column::make("Hora", "start_time")
-                ->format(function ($value){
+                ->format(function ($value) {
                     return $value->format('H:i');
                 })
                 ->sortable(),
             Column::make("Hora Fin", "end_time")
-                   ->format(function ($value){
+                ->format(function ($value) {
                     return $value->format('H:i');
                 })
                 ->sortable(),
 
-            Column::make("Estado","status")->format(function($value){
+            Column::make("Estado", "status")->format(function ($value) {
                 return $value->label();
             }),
-              Column::make("Acciones")
+            Column::make("Acciones")
                 ->label(function ($row) {
                     return view('admin.appointment.actions', [
                         'appointment' => $row
                     ]);
                 })
-           
+
         ];
     }
 }

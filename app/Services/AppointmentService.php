@@ -19,6 +19,9 @@ class AppointmentService
                     ->where('start_time', '>=', $hourStart)
                     ->where('start_time', '<', $hourEnd);
             })
+               ->whereHas('user', function($query){
+                $query->role('doctor');
+            })
             ->when($speciality_id, function($q, $speciality_id){
                 return $q->where('speciality_id', $speciality_id);
             })

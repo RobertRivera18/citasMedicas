@@ -17,7 +17,7 @@ class RoleSeeder extends Seeder
         Role::create([
             'name' => 'Admin',
         ])->givePermissionTo(Permission::all());
-        
+
         $roles = [
             'Paciente' => [
                 'access_dashboard',
@@ -55,7 +55,6 @@ class RoleSeeder extends Seeder
                 'read_appointment',
                 'update_appointment',
                 'delete_appointment',
-
                 'read_calendar',
             ],
         ];
@@ -64,9 +63,7 @@ class RoleSeeder extends Seeder
             Role::create([
                 'name' => $role,
             ])
-            ->givePermissionTo($permissions);
+                ->givePermissionTo($permissions);
         }
-
-        
     }
 }

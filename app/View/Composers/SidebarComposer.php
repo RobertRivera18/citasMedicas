@@ -7,21 +7,27 @@ use App\Services\Sidebar\ItemHeader;
 use App\Services\Sidebar\ItemLink;
 use Illuminate\View\View;
 
-
 class SidebarComposer
 {
-    public function compose()
+    public function compose(View $view)
     {
-        $items = collect(config('sidebar'))->map(function ($item) {
+        $items = collect(config('sidebar'))
+            ->map(function ($item) {
+                return $this->parseItem($item);
+            });
 
-            return $this->parseItem($item);
+        $items = $items->filter(function ($item) {
+            return $item->authorize();
         });
+
+        $view->with('sidebarItems', $items);
     }
 
     public function parseItem($item)
     {
         switch ($item['type']) {
             case 'header':
+                
                 return new ItemHeader(
                     title: $item['title'],
                     can: $item['can'] ?? []
@@ -39,8 +45,9 @@ class SidebarComposer
                 );
 
                 break;
-            case 'group':
 
+            case 'group':
+                
                 $group = new ItemGroup(
                     title: $item['title'],
                     icon: $item['icon'] ?? 'fa-regular fa-folder',
@@ -52,7 +59,7 @@ class SidebarComposer
                 }
 
                 break;
-
+            
             default:
                 throw new \InvalidArgumentException("Unknown sidebar item type: {$item['type']}");
                 break;
