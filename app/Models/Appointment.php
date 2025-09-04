@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
-#[ScopedBy([VerifyRole::class])]
+
 class Appointment extends Model
 {
     protected $fillable = [

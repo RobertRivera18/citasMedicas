@@ -12,6 +12,18 @@
 ]">
 
 
+
+    <x-slot name="action">
+        <form action="{{route('admin.appointments.destroy',$appointment)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <x-wire-button red type="submit" sm>
+                Cancelar Cita
+            </x-wire-button>
+        </form>
+    </x-slot>
+
+
     <x-wire-card class="mb-4">
         <div class="flex items-center justify-between">
             <div>
@@ -35,7 +47,16 @@
             </div>
         </div>
     </x-wire-card>
-    @livewire('appointment-manager', [
-        'appointmentEdit' => $appointment,
-    ])
+
+    @if ($appointment->status->isEditable())
+        @livewire('appointment-manager', [
+            'appointmentEdit' => $appointment,
+        ])
+    @else
+        <x-wire-card>
+            <p class=" text-sm text-slate-500">
+                Esta cita no se puede editar porque ya ha sido completada o cancelada.
+            </p>
+        </x-wire-card>
+    @endif
 </x-admin-layout>
