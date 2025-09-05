@@ -30,6 +30,36 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        if (auth()->user()->hasRole('Doctor')) {
+            $data['appointments_today_count'] = Appointment::whereDate('created_at', now())
+                ->where('status', AppointmentEnum::SCHEDULED)
+                ->whereHas('doctor', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })->count();
+
+            $data['appointments_week'] = Appointment::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+                ->where('status', AppointmentEnum::SCHEDULED)
+                ->whereHas('doctor', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })->count();
+
+
+            $data['next_appointment'] = Appointment::whereHas('doctor', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+                ->where('status', AppointmentEnum::SCHEDULED)
+                ->whereDate('date', '>=', now())
+                ->whereTime('end_time', '>=', now()->toTimeString())
+                ->orderBy('date')
+                ->orderBy('start_time')
+                ->first();
+        }
+
+        $data['appointments_today'] = Appointment::whereDate('created_at', now())
+            ->where('status', AppointmentEnum::SCHEDULED)
+            ->whereHas('doctor', function ($query) {
+                $query->where('user_id', auth()->id());
+            })->get();
 
 
         return view('admin.dashboard', compact('data'));

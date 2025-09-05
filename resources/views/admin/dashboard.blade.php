@@ -9,4 +9,8 @@
     @role('Admin')
         @include('admin.dashboard.admin')
     @endrole
+
+    @role('Doctor')
+        @include('admin.dashboard.doctor')
+    @endrole
 </x-admin-layout>
