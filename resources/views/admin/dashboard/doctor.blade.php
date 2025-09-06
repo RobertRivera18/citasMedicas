@@ -1,74 +1,141 @@
-<div>
-    <div class="grid grid-cols-4 gap-6 mb-8">
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="grid grid-cols-4 gap-6">
+        <!-- Saludo -->
         <div class="col-span-2">
             <x-wire-card>
-                <p class="text-2xl font-bold text-gray-800">
-                    !Buen dia, Dr(a). {{ auth()->user()->name }}
-                </p>
-                <p class="mr-1 text-gray-600">Aqui esta el resumen de tu Jornada</p>
+                <div class="flex items-center space-x-3">
+                    <!-- Icono saludo -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <div>
+                        <p class="text-2xl font-bold text-gray-800">
+                            ¡Buen día, Dr(a). {{ auth()->user()->name }}
+                        </p>
+                        <p class="mt-1 text-gray-600">Aquí tienes el resumen de tu jornada</p>
+                    </div>
+                </div>
             </x-wire-card>
         </div>
+
+        <!-- Estadísticas -->
         <div>
-            <x-wire-card>
-                <p class="text-sm font-semibold text-gray-500">
-                    Citas de Hoy
-                </p>
-                <p class="mt-2 text-2xl font-semibold text-gray-800">
-                    {{ $data['appointments_today_count'] }}
-                </p>
+            <x-wire-card class="text-center">
+                <div class="flex flex-col items-center">
+                    <!-- Icono calendario -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 mb-2" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3M3 11h18M5 5h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z" />
+                    </svg>
+                    <p class="text-sm font-semibold text-gray-500">Citas de Hoy</p>
+                    <p class="mt-2 text-3xl font-extrabold text-indigo-600">
+                        {{ $data['appointments_today_count'] }}
+                    </p>
+                </div>
             </x-wire-card>
         </div>
 
         <div>
-            <x-wire-card>
-                <p class="text-sm font-semibold text-gray-500">
-                    Citas de Hoy
-                </p>
-                <p class="mt-2 text-2xl font-semibold text-gray-800">
-                    {{ $data['appointments_today_count'] }}
-                </p>
+            <x-wire-card class="text-center">
+                <div class="flex flex-col items-center">
+                    <!-- Icono historial -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 mb-2" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-sm font-semibold text-gray-500">Citas Totales</p>
+                    <p class="mt-2 text-3xl font-extrabold text-indigo-600">
+                        {{ $data['appointments_total_count'] ?? 0 }}
+                    </p>
+                </div>
             </x-wire-card>
         </div>
-
     </div>
+
+    <!-- Contenido principal -->
     <div class="grid grid-cols-3 gap-6">
+        <!-- Próxima cita -->
         <div>
             <x-wire-card>
-                <p class=" text-lg font-semibold text-gray-900">Proxima Cita</p>
+                <div class="flex items-center space-x-2">
+                    <!-- Icono reloj -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-lg font-semibold text-gray-900">Próxima Cita</p>
+                </div>
+
                 @if ($data['next_appointment'])
-                    <p class="mt-4 font-semibold text-gray-800 text-lg">
-                        {{ $data['next_appointment']->patient->user->name }}</p>
-                    {{ $data['next_appointment']->patient->user->email }}</p>
-
-                    <p class="mb-6 text-gray-600">{{ $data['next_appointment']->date->format('d/m/Y') }}a las
-                        {{ $data['next_appointment']->start_time->format('H:i:s') }} </p>
-
-                    <x-wire-button href="{{ route('admin.appointments.consultation', $data['next_appointment']->id) }}"
-                        class="mt-4 w-full">
-                        Gestionar Cita
-                    </x-wire-button>
+                    <div class="mt-4 space-y-2">
+                        <p class="text-lg font-semibold text-gray-800">
+                            {{ $data['next_appointment']->patient->user->name }}
+                        </p>
+                        <p class="text-sm text-gray-600">
+                            {{ $data['next_appointment']->patient->user->email }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            {{ $data['next_appointment']->date->format('d/m/Y') }}
+                            a las {{ $data['next_appointment']->start_time->format('H:i') }}
+                        </p>
+                        <x-wire-button 
+                            href="{{ route('admin.appointments.consultation', $data['next_appointment']->id) }}"
+                            class="mt-4 w-full">
+                            Gestionar Cita
+                        </x-wire-button>
+                    </div>
                 @else
-                    <p class="mt-4 text-lg text-gray-600">No tienes citas programadas para hoy</p>
+                    <p class="mt-4 text-gray-600">No tienes citas programadas para hoy</p>
                 @endif
             </x-wire-card>
         </div>
 
+        <!-- Agenda del día -->
         <div class="col-span-2">
             <x-wire-card>
-                <p class="font-semibold text-lg text-gray-800">Agenda para hoy</p>
+                <div class="flex items-center space-x-2">
+                    <!-- Icono lista -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <p class="text-lg font-semibold text-gray-900">Agenda para Hoy</p>
+                </div>
+
                 <ul class="mt-4 divide-y divide-gray-200">
-                    @forelse ($data['appointments_today_count'] as $appointment)
-                        <li class="py-2 flex justify-between items-center">
-                            <div>
-                                <p class="text-sm font-semibold text-gray-800">{{ $appointment->patient->user->name }}
-                                </p>
-                                <p class="text-xs font-semibold text-gray-500">{{ $appointment->date->format('d/m/Y') }} a las {{$appointment->start_time}}
-                                </p>
+                    @forelse ($data['appointments_today'] as $appointment)
+                        <li class="py-3 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <!-- Icono usuario -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800">
+                                        {{ $appointment->patient->user->name }}
+                                    </p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $appointment->date->format('d/m/Y') }}
+                                        a las {{ $appointment->start_time->format('H:i') }}
+                                    </p>
+                                </div>
                             </div>
-                            <a href="">Gestionar cita</a>
+                            <a href="{{ route('admin.appointments.consultation', $appointment->id) }}"
+                               class="text-sm font-medium text-indigo-600 hover:underline">
+                                Gestionar
+                            </a>
                         </li>
                     @empty
-                    No tiene citas programadas para hoy
+                        <p class="py-3 text-sm text-gray-500">No tienes citas programadas para hoy</p>
                     @endforelse
                 </ul>
             </x-wire-card>
