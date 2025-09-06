@@ -58,16 +58,17 @@
                 <p class="font-semibold text-lg text-gray-800">Agenda para hoy</p>
                 <ul class="mt-4 divide-y divide-gray-200">
                     @forelse ($data['appointments_today_count'] as $appointment)
-                        <li class="py-3 flex justify-between items-center">
+                        <li class="py-2 flex justify-between items-center">
                             <div>
                                 <p class="text-sm font-semibold text-gray-800">{{ $appointment->patient->user->name }}
                                 </p>
-                                <p class="text-sm font-semibold text-gray-500">{{ $appointment->date->format('d/m/Y') }}
+                                <p class="text-xs font-semibold text-gray-500">{{ $appointment->date->format('d/m/Y') }} a las {{$appointment->start_time}}
                                 </p>
                             </div>
-                            <a href=""></a>
+                            <a href="">Gestionar cita</a>
                         </li>
                     @empty
+                    No tiene citas programadas para hoy
                     @endforelse
                 </ul>
             </x-wire-card>
