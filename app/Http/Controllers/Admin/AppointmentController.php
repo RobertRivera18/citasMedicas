@@ -79,8 +79,7 @@ class AppointmentController extends Controller
             'timer' => 3000,
             'showConfirmButton' => false
         ]);
-       return redirect()->route('admin.appointments.edit', $appointment);
-
+        return redirect()->route('admin.appointments.edit', $appointment);
     }
     public function consultation(Appointment $appointment)
     {

@@ -30,6 +30,8 @@ class DashboardController extends Controller
                 ->get();
         }
 
+
+
         if (auth()->user()->hasRole('Doctor')) {
             $data['appointments_today_count'] = Appointment::whereDate('created_at', now())
                 ->where('status', AppointmentEnum::SCHEDULED)
@@ -55,11 +57,32 @@ class DashboardController extends Controller
                 ->first();
         }
 
-        $data['appointments_today'] = Appointment::whereDate('created_at', now())
-            ->where('status', AppointmentEnum::SCHEDULED)
-            ->whereHas('doctor', function ($query) {
+        // $data['appointments_today'] = Appointment::whereDate('created_at', now())
+        //     ->where('status', AppointmentEnum::SCHEDULED)
+        //     ->whereHas('doctor', function ($query) {
+        //         $query->where('user_id', auth()->id());
+        //     })->get();
+
+        if (auth()->user()->hasRole('Paciente')) {
+            $data['next_appointment'] = Appointment::whereHas('patient', function ($query) {
                 $query->where('user_id', auth()->id());
-            })->get();
+            })
+                ->latest()
+                ->first();
+
+            $data['past_appointments'] = Appointment::whereHas('patient', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+                ->latest()
+                ->take(5)
+                ->get();
+
+         $data['appointments_today'] = Appointment::whereDate('created_at', now())
+             ->where('status', AppointmentEnum::SCHEDULED)
+            ->whereHas('patient', function ($query) {
+                 $query->where('user_id', auth()->id());
+             })->get();
+        }
 
 
         return view('admin.dashboard', compact('data'));

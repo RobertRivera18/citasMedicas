@@ -1,21 +1,23 @@
 <div class="space-y-8">
     <!-- Header -->
-    <div class="grid grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <!-- Saludo -->
-        <div class="col-span-2">
+        <div class="md:col-span-2">
             <x-wire-card>
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center gap-4">
                     <!-- Icono saludo -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     <div>
-                        <p class="text-2xl font-bold text-gray-800">
+                        <p class="text-xl md:text-2xl font-bold text-gray-800">
                             ¡Buen día, Dr(a). {{ auth()->user()->name }}
                         </p>
-                        <p class="mt-1 text-gray-600">Aquí tienes el resumen de tu jornada</p>
+                        <p class="mt-1 text-gray-600 text-sm md:text-base">
+                            Aquí tienes el resumen de tu jornada
+                        </p>
                     </div>
                 </div>
             </x-wire-card>
@@ -26,13 +28,13 @@
             <x-wire-card class="text-center">
                 <div class="flex flex-col items-center">
                     <!-- Icono calendario -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 mb-2" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600 mb-2" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3M3 11h18M5 5h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z" />
                     </svg>
-                    <p class="text-sm font-semibold text-gray-500">Citas de Hoy</p>
-                    <p class="mt-2 text-3xl font-extrabold text-indigo-600">
+                    <p class="text-sm font-medium text-gray-500">Citas de Hoy</p>
+                    <p class="mt-1 text-3xl font-extrabold text-indigo-600">
                         {{ $data['appointments_today_count'] }}
                     </p>
                 </div>
@@ -43,13 +45,13 @@
             <x-wire-card class="text-center">
                 <div class="flex flex-col items-center">
                     <!-- Icono historial -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 mb-2" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600 mb-2" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p class="text-sm font-semibold text-gray-500">Citas Totales</p>
-                    <p class="mt-2 text-3xl font-extrabold text-indigo-600">
+                    <p class="text-sm font-medium text-gray-500">Citas Totales</p>
+                    <p class="mt-1 text-3xl font-extrabold text-indigo-600">
                         {{ $data['appointments_total_count'] ?? 0 }}
                     </p>
                 </div>
@@ -58,11 +60,11 @@
     </div>
 
     <!-- Contenido principal -->
-    <div class="grid grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Próxima cita -->
         <div>
             <x-wire-card>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center gap-2">
                     <!-- Icono reloj -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +76,7 @@
 
                 @if ($data['next_appointment'])
                     <div class="mt-4 space-y-2">
-                        <p class="text-lg font-semibold text-gray-800">
+                        <p class="text-base md:text-lg font-semibold text-gray-800">
                             {{ $data['next_appointment']->patient->user->name }}
                         </p>
                         <p class="text-sm text-gray-600">
@@ -91,15 +93,15 @@
                         </x-wire-button>
                     </div>
                 @else
-                    <p class="mt-4 text-gray-600">No tienes citas programadas para hoy</p>
+                    <p class="mt-4 text-gray-600 text-sm">No tienes citas programadas para hoy</p>
                 @endif
             </x-wire-card>
         </div>
 
         <!-- Agenda del día -->
-        <div class="col-span-2">
+        <div class="md:col-span-2">
             <x-wire-card>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center gap-2">
                     <!-- Icono lista -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -111,8 +113,8 @@
 
                 <ul class="mt-4 divide-y divide-gray-200">
                     @forelse ($data['appointments_today'] as $appointment)
-                        <li class="py-3 flex justify-between items-center">
-                            <div class="flex items-center space-x-3">
+                        <li class="py-3 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                            <div class="flex items-center gap-3">
                                 <!-- Icono usuario -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">

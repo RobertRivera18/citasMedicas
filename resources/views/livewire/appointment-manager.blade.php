@@ -180,7 +180,8 @@
                         <hr class="my-3">
 
                         <div class="space-y-6">
-                            <x-wire-select
+                            @if (!$appointmentEdit && !auth()->user()->hasRole('Paciente'))
+                               <x-wire-select
                                 label="Paciente"
                                 placeholder="Seleccione un paciente"
                                 :async-data="route('api.patients.index')"
@@ -188,7 +189,9 @@
                                 :disabled="isset($appointmentEdit)"
                                 option-label="name"
                                 option-value="id"
-                            />
+                            />  
+                            @endif
+                           
 
                             <x-wire-textarea
                                 label="Motivo de la cita"

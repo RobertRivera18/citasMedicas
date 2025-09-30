@@ -12,12 +12,15 @@ class AppointmentTable extends DataTableComponent
     protected $model = Appointment::class;
 
 
-    public function builder(): Builder
-    {
-        return Appointment::query()->with('patient.user', 'doctor.user');
-        
-        
-    }
+   public function builder(): Builder
+{
+    return Appointment::query()
+        ->with('patient.user', 'doctor.user')
+        ->whereHas('patient.user', function ($q) {
+            $q->where('id', auth()->id());
+        });
+}
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
